@@ -1,0 +1,1 @@
+Este jogo baseia-se num personagem principal(um pássaro) que desenhado num canvas voa, desviando-se de inimigos e possivelmente destruindo-os. Com o decorrer do tempo a velocidade do personagem aumneta, criando um desafio para o utilizador. O personagem possui diversas vidas que pode utilizar e que se regeneram após um período de tempo. O objetivo é chegar ao fim do mapa.
