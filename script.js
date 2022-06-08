@@ -8,7 +8,8 @@ playerImage.src = 'assets/PngItem_3575839.png';
 
 function animate(){
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    ctx.drawImage(playerImage, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    //ctx.drawimage(image, sx, sy, sw, sh, dx, dy, dw, dh);
+    ctx.drawImage(playerImage, 0, 0, 350, 300, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     requestAnimationFrame(animate);
 };
 animate();
