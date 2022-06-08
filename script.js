@@ -4,7 +4,7 @@ const CANVAS_WIDTH = canvas.width=600;
 const CANVAS_HEIGHT = canvas.height=600;
 
 const playerImage = new Image();
-playerImage.src = 'euphus_young_fly.png';
+playerImage.src = 'PngItem_3575839.png';
 
 function animate(){
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
