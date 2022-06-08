@@ -8,6 +8,7 @@ playerImage.src='euphus_young_fly.png';
 
 function animate(){
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    ctx.drawImage(playerImage, 0, 0)
     requestAnimationFrame(animate);
 };
 animate();
