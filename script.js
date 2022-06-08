@@ -5,6 +5,8 @@ const CANVAS_HEIGHT = canvas.height=600;
 
 const playerImage = new Image();
 playerImage.src = 'assets/PngItem_3575839.png';
+const spriteWidth = 343;
+const spriteHeight = 300;
 
 function animate(){
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
