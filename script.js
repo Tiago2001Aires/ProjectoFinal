@@ -14,12 +14,17 @@ let frameX = 0;
 //não é necessário frame y nem navegar pelo y, visto ser constituido por uma unica row
 let gameFrame = 0;
 const staggerFrames = 1;
+const gravity = 0.5;
 
 class Player {
     constructor(){
         this.position = {
             x: 100,
             y: 100
+        }
+        this.velocity = {
+            x: 0,
+            y: 0
         }
         this.width = 30
         this.height = 30
@@ -29,13 +34,23 @@ class Player {
         ctx.fillStyle = 'red'
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
+
+    update(){
+        this.draw()
+        this.position.y += this.velocity.y
+
+        if (this.position.y + this.height + this.velocity.y <= CANVAS_HEIGHT)
+            this.velocity.y += gravity
+        else
+            this.velocity.y = 0
+    }
 }
 
 const player = new Player()
-player.draw()
 
-/*function animate(){
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+function animate(){
+    /*ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     //ctx.drawimage(image, sx, sy, sw, sh, dx, dy, dw, dh); 
     ctx.drawImage(playerImage, frameX * spriteWidth, 0, spriteWidth, spriteHeight, 0, 0,
          spriteWidth, spriteHeight);
@@ -43,10 +58,11 @@ player.draw()
     if(gameFrame%staggerFrames ==0){
        if(frameX<6) frameX ++;
         else frameX=0;
-    }
+    }*/
 
-    gameFrame++;
+    //gameFrame++;
     requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+    player.update()
 };
-animate();
-*/                     
+animate();                   
