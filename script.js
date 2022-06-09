@@ -1,7 +1,9 @@
+//const platform = 'assets/platform.png'
+//console.log(platform)
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
-const CANVAS_WIDTH = window.innerWidth;
-const CANVAS_HEIGHT = window.innerHeight;
+const CANVAS_WIDTH = 1024;
+const CANVAS_HEIGHT = 576;
 
 canvas.width = CANVAS_WIDTH
 canvas.height = CANVAS_HEIGHT
@@ -48,23 +50,28 @@ class Player {
 }
 
 class Platform {
-    constructor({x, y}){
+    constructor({x, y, image}){
         this.position = {
             x: x,
             y: y
         }
-        this.width = 200
-        this.height = 20
+
+        this.image = image
+
+        this.width = image.width
+        this.height = image.height
     }
 
     draw(){
-        ctx.fillStyle = 'blue'
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+        ctx.drawImage(this.image, this.position.x, this.position.y)
     }
 }
 
+const image = new Image()
+image.src = 'assets/platform.png'
+
 const player = new Player()
-const platforms = [new Platform({x: 200, y:400}), new Platform({x:500, y:500})]
+const platforms = [new Platform({x: -1, y:470, image: image}), new Platform({x:image.width - 3, y:470, image: image})]
 
 const keys = {
     right: {
@@ -90,11 +97,13 @@ function animate(){
 
     //gameFrame++;
     requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
-    player.update()
+    ctx.fillStyle = 'white'
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+    
     platforms.forEach((platform) => {
         platform.draw()
     })
+    player.update()
 
     if (keys.right.pressed && player.position.x < 400){
         player.velocity.x = 5
