@@ -12,13 +12,13 @@ canvas.width = CANVAS_WIDTH
 canvas.height = CANVAS_HEIGHT
 
 const playerImage = new Image();
-playerImage.src = 'assets/PngItem_3575839.png';
+playerImage.src = 'assets/PngItem_3575839-rem.png';
 const spriteWidth = 343;
 const spriteHeight = 300;
 let frameX = 0;
 //não é necessário frame y nem navegar pelo y, visto ser constituido por uma unica row
 let gameFrame = 0;
-const staggerFrames = 1;
+const staggerFrames = 4;
 const gravity = 0.5;
 
 class Player {
@@ -32,19 +32,24 @@ class Player {
             x: 0,
             y: 0
         }
-        this.width = 30
-        this.height = 30
+        this.width = 171 / 2
+        this.height = 75
+
+        this.image = playerImage
+        this.frames = 0
     }
 
     draw(){
-        ctx.drawImage(playerImage, frameX * spriteWidth, spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
-        if(gameFrame % staggerFrames == 0){
-            if(frameX < 9)frameX ++;
-            else frameX = 0
-        }
+        ctx.drawImage(this.image, 343 * this.frames, 0, 343, 300, this.position.x, this.position.y, this.width, this.height)
     }
 
     update(){
+        if(gameFrame%staggerFrames == 0){
+            if(this.frames<8) this.frames ++;
+             else this.frames=0;
+        }
+        /*if(this.frames<9) this.frames ++;
+            else this.frames=0;*/
         this.draw()
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
@@ -117,13 +122,13 @@ let scrollOffset = 0;
 function init(){
     player = new Player()
     platforms = [
-        new Platform({x: platformImage.width * 4 + 300 - 2 + platformImage.width - platformSmallTallImage.width, y: 270, image: platformSmallTallImage}),
+        new Platform({x: platformImage.width * 4 + 300 + 100 - 2 + platformImage.width - platformSmallTallImage.width, y: 270, image: platformSmallTallImage}),
         new Platform({x: -1, y: 470, image: platformImage}),
         new Platform({x: platformImage.width - 3, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 2 + 100, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 3 + 300, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 4 + 300 - 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 5 + 1000 - 2, y: 470, image: platformImage})
+        new Platform({x: platformImage.width * 2 + 100 + 100, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 3 + 300 + 100, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 4 + 300 + 100 - 2, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 5 + 1000 + 100- 2, y: 470, image: platformImage})
     ]
     genericObjects = [
         new GenericObject({x: -1, y: -1, image: createImage(backgroundSrc)}),
@@ -144,10 +149,15 @@ function animate(){
         else frameX=0;
     }*/
 
-    //gameFrame++;
+    gameFrame++;
     requestAnimationFrame(animate);
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+
+    if(gameFrame % staggerFrames == 0){
+        if(frameX < 9)frameX ++;
+        else frameX = 0
+    }
     
     genericObjects.forEach((genericObject) => {
         genericObject.draw()
@@ -197,7 +207,7 @@ function animate(){
 
     // win condition
     if (scrollOffset > platformImage.width * 5 + 700 - 2){
-        window.alert('You win')
+        //window.alert('You win')
     }
 
     // lose condition
