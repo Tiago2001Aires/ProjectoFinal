@@ -46,8 +46,6 @@ class Player {
 
         if (this.position.y + this.height + this.velocity.y <= CANVAS_HEIGHT)
             this.velocity.y += gravity
-        else
-            this.velocity.y = 0
     }
 }
 
@@ -93,12 +91,13 @@ function createImage(src){
     return image
 }
 
-const platformImage = createImage(platformSrc)
+let platformImage = createImage(platformSrc)
 
-const player = new Player()
-const platforms = [new Platform({x: -1, y: 470, image: platformImage}),
-                   new Platform({x: platformImage.width - 3, y: 470, image: platformImage})]
-const genericObjects = [new GenericObject({x: -1, y: -1, image: createImage(backgroundSrc)}),
+let player = new Player()
+let platforms = [new Platform({x: -1, y: 470, image: platformImage}),
+                   new Platform({x: platformImage.width - 3, y: 470, image: platformImage}),
+                   new Platform({x: platformImage.width * 2 + 100, y: 470, image: platformImage})]
+let genericObjects = [new GenericObject({x: -1, y: -1, image: createImage(backgroundSrc)}),
                         new GenericObject({x: -1, y: -1, image: createImage(hillsSrc)})]
 
 const keys = {
@@ -111,6 +110,19 @@ const keys = {
 }
 
 let scrollOffset = 0;
+
+function init(){
+    platformImage = createImage(platformSrc)
+
+    player = new Player()
+    platforms = [new Platform({x: -1, y: 470, image: platformImage}),
+                 new Platform({x: platformImage.width - 3, y: 470, image: platformImage}),
+                 new Platform({x: platformImage.width * 2 + 100, y: 470, image: platformImage})]
+    genericObjects = [new GenericObject({x: -1, y: -1, image: createImage(backgroundSrc)}),
+                      new GenericObject({x: -1, y: -1, image: createImage(hillsSrc)})]
+
+    scrollOffset = 0;
+}
 
 function animate(){
     /*ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -164,7 +176,7 @@ function animate(){
         }
     }
 
-    //player platform collision
+    // player platform collision
     platforms.forEach((platform) => {
         if (player.position.y + player.height <= platform.position.y 
             && player.position.y + player.height + player.velocity.y >= platform.position.y
@@ -174,8 +186,14 @@ function animate(){
         }
     })
 
+    // win condition
     if (scrollOffset > 2000){
         window.alert('You win')
+    }
+
+    // lose condition
+    if (player.position.y > CANVAS_HEIGHT){
+        init()
     }
 };
 
