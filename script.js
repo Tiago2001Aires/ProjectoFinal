@@ -37,6 +37,7 @@ class Player {
 
     update(){
         this.draw()
+        this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
         if (this.position.y + this.height + this.velocity.y <= CANVAS_HEIGHT)
@@ -47,6 +48,14 @@ class Player {
 }
 
 const player = new Player()
+const keys = {
+    right: {
+        pressed: false
+    },
+    left: {
+        pressed: false
+    }
+}
 
 
 function animate(){
@@ -64,5 +73,54 @@ function animate(){
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
     player.update()
+
+    if (keys.right.pressed){
+        player.velocity.x = 5
+    } else if (keys.left.pressed){
+        player.velocity.x = -5
+    } else player.velocity.x = 0
 };
-animate();                   
+
+animate();             
+
+window.addEventListener('keydown', ({key}) => {
+    console.log(key)
+    switch (key){
+        case 'ArrowLeft':
+            console.log('left')
+            keys.left.pressed = true
+            break
+        case 'ArrowRight':
+            console.log('right')
+            keys.right.pressed = true
+            break
+        case 'ArrowUp':
+            console.log('up')
+            player.velocity.y -= 20
+            break
+        case 'ArrowDown':
+            console.log('down')
+            break
+    }
+})
+
+window.addEventListener('keyup', ({key}) => {
+    console.log(key)
+    switch (key){
+        case 'ArrowLeft':
+            console.log('left')
+            keys.left.pressed = false
+            break
+        case 'ArrowRight':
+            console.log('right')
+            keys.right.pressed = false
+            break
+        case 'ArrowUp':
+            console.log('up')
+            player.velocity.y -= 20
+            break
+        case 'ArrowDown':
+            console.log('down')
+            break
+    }
+})
