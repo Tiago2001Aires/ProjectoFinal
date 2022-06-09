@@ -37,8 +37,11 @@ class Player {
     }
 
     draw(){
-        ctx.fillStyle = 'red'
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+        ctx.drawImage(playerImage, frameX * spriteWidth, spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
+        if(gameFrame % staggerFrames == 0){
+            if(frameX < 9)frameX ++;
+            else frameX = 0
+        }
     }
 
     update(){
