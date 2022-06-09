@@ -10,35 +10,18 @@ const spriteHeight = 300;
 let frameX = 0;
 //não é necessário frame y nem navegar pelo y, visto ser constituido por uma unica row
 let gameFrame = 0;
-const staggerFrames = 9;
-const spriteAnimations = [];
-const animationState = [
-    {
-        name: 'flying',
-        frames: 9,
-    }
-]
-
-animationState.forEach((state, index) => {
-    let frames = {
-        loc: [],
-
-    }
-    for (let j = 0; j < state.frames; j++){
-        let positionX = j * spriteWidth;
-        frames.loc.push({
-            x: positionX
-        });
-    }
-    spriteAnimations[state.name] = frames;
-});
+const staggerFrames = 1;
 
 function animate(){
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    let position = Math.floor(gameFrame/staggerFrames) % 8;
-    frameX = spriteWidth * position;
     //ctx.drawimage(image, sx, sy, sw, sh, dx, dy, dw, dh); 
-    ctx.drawImage(playerImage, frameX, 0, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
+    ctx.drawImage(playerImage, frameX * spriteWidth, 0, spriteWidth, spriteHeight, 0, 0,
+         spriteWidth, spriteHeight);
+
+    if(gameFrame%staggerFrames ==0){
+       if(frameX<6) frameX ++;
+        else frameX=0;
+    }
 
     gameFrame++;
     requestAnimationFrame(animate);
