@@ -56,7 +56,7 @@ function animate(){
          spriteWidth, spriteHeight);
 
     if(gameFrame%staggerFrames ==0){
-       if(frameX<6) frameX ++;
+       if(frameX<9) frameX ++;
         else frameX=0;
     }*/
 
