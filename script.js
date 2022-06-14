@@ -20,6 +20,8 @@ let frameX = 0;
 let gameFrame = 0;
 const staggerFrames = 4;
 const gravity = 0.5;
+const numberOfEnemies=100;
+const enemiesArray=[];
 
 class Player {
     constructor(){
@@ -56,6 +58,22 @@ class Player {
 
         if (this.position.y + this.height + this.velocity.y <= CANVAS_HEIGHT)
             this.velocity.y += gravity
+    }
+}
+
+class Enemy {
+    constructor(){
+        this.x=Math.random() * canvas.width;
+        this.y=Math.random() * canvas.height;
+        this.width=100;
+        this.height=100;
+    }
+    update(){
+        this.x++;
+        this.y++;
+    }
+    draw(){
+        ctx.fillRect(this.x, this.y, this.width, this.height)
     }
 }
 
@@ -118,7 +136,9 @@ const keys = {
 }
 
 let scrollOffset = 0;
-
+for(let i= 0; i < numberOfEnemies; i++){
+    enemiesArray.push(new Enemy());
+}
 function init(){
     player = new Player()
     platforms = [
@@ -146,7 +166,6 @@ function init(){
     ]
 
     scrollOffset = 0;
-    
 }
 
 function animate(){
