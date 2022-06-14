@@ -22,7 +22,7 @@ const staggerFrames = 4;
 const gravity = 0.5;
 const numberOfEnemies = 4;
 const enemiesArray = [];
-let gameOver = false;
+
 
 
 
@@ -64,11 +64,12 @@ class Player {
 
         //colision detection
         enemiesArray.forEach(enemy => {
-            const dx = enemy.x - this.x;
-            const dy = enemy.y - this.y;
+            const dx = enemy.x - this.position.x;
+            const dy = enemy.y - this.position.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < enemy.width/2 + this.width / 2){
-                gameOver = true;
+                alert('Game Over');
+                init();
             }
         });
     }
@@ -83,7 +84,7 @@ class Enemy {
         this.spriteHeight = 188;
         this.width = this.spriteWidth / 2.5;
         this.height = this.spriteHeight / 2.5;
-        this.x = Math.random() * (canvas.width - this.width);
+        this.x = (Math.random() * (canvas.width - this.width)) + 2500;
         this.y = Math.random() * (canvas.height - this.height);
         this.frame = 0;
         this.flapSpeed = Math.floor(Math.random() * 3 + 1);
@@ -101,7 +102,6 @@ class Enemy {
         }
     }
     draw() {
-        ctx.strokeRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
 }
@@ -209,14 +209,16 @@ function animate() {
     }*/
 
     gameFrame++;
-    if (!gameOver) requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+
 
     if (gameFrame % staggerFrames == 0) {
         if (frameX < 9) frameX++;
         else frameX = 0
     }
+
 
 
     genericObjects.forEach((genericObject) => {
@@ -225,13 +227,12 @@ function animate() {
     platforms.forEach((platform) => {
         platform.draw()
     })
-    player.update(enemiesArray)
-
+    
     enemiesArray.forEach(enemy => {
         enemy.update();
         enemy.draw();
     })
-
+    player.update(enemiesArray)
 
 
     if (keys.right.pressed && player.position.x < 400) {
@@ -279,6 +280,7 @@ function animate() {
 
     // lose condition
     if (player.position.y > CANVAS_HEIGHT) {
+        alert("Game Over")
         init()
     }
 };
