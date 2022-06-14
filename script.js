@@ -20,7 +20,7 @@ let frameX = 0;
 let gameFrame = 0;
 const staggerFrames = 4;
 const gravity = 0.5;
-const numberOfEnemies=100;
+const numberOfEnemies=5;
 const enemiesArray=[];
 
 class Player {
@@ -67,13 +67,14 @@ class Enemy {
         this.y=Math.random() * canvas.height;
         this.width=100;
         this.height=100;
+        this.speed=Math.random() * 4 - 2;
     }
     update(){
-        this.x++;
-        this.y++;
+        this.x+= this.speed;
+        this.y+= this.speed;
     }
     draw(){
-        ctx.fillRect(this.x, this.y, this.width, this.height)
+        ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
 
@@ -189,6 +190,7 @@ function animate(){
         else frameX = 0
     }
     
+
     genericObjects.forEach((genericObject) => {
         genericObject.draw()
     })
@@ -197,6 +199,10 @@ function animate(){
     })
     player.update()
 
+    enemiesArray.forEach(enemy => {
+        enemy.update();
+        enemy.draw();
+    })
     if (keys.right.pressed && player.position.x < 400){
         player.velocity.x = player.speed
     } else if ((keys.left.pressed && player.position.x > 100) || (keys.left.pressed && scrollOffset === 0 && player.position.x > 0)){
