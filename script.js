@@ -81,7 +81,7 @@ class Enemy {
     }
     update(){
         this.x-=this.speed;
-        this.y+= Math.sin(this.angle);
+        this.y+= 3 * Math.sin(this.angle);
         this.angle += this.angleSpeed;
         if(this.x + this.width < 0 ) this.x = canvas.width;
         if(gameFrame % this.flapSpeed === 0){
