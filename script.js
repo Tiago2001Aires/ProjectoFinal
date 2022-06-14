@@ -80,6 +80,7 @@ class Enemy {
     update(){
         this.x-=this.speed;
         //this.y+= Math.random() * 5 - 2.5;
+        if(this.x + this.width < 0 ) this.x = canvas.width;
         if(gameFrame % this.flapSpeed === 0){
             this.frame > 4 ? this.frame = 0 : this.frame++;
         }
