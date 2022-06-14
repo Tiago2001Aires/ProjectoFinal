@@ -280,7 +280,6 @@ function animate() {
 
     // lose condition
     if (player.position.y > CANVAS_HEIGHT) {
-        alert("you lose");
         init();
   
     }
