@@ -146,6 +146,7 @@ function init(){
     ]
 
     scrollOffset = 0;
+    
 }
 
 function animate(){
