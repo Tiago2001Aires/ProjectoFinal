@@ -7,10 +7,18 @@
     <base href=".">
     <link rel="stylesheet" href="loader.css"/>
     <title>Document</title>
+    <script>
+        function startTimer(){
+        var tt = setInterval(function() {
+            window.open ('index.html','_self',false)
+        },5000);
+        }
+        </script>
 </head>
-<body>
+<body onload=startTimer();>
     <div id="parent"></div>
         <div class="image-area"></div>
-        <div class="loader">Loading</div>
+        <div class="loader">Loading Game</div>
+      
 </body>
 </html>

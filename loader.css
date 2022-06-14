@@ -37,7 +37,7 @@ body, html{
     overflow: hidden;
     vertical-align: bottom;
     animation: dots steps(4, end) 2s infinite;
-    width: 0px;
+    width: 1px;
 }
 
 @keyframes dots {
