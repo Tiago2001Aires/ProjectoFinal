@@ -78,10 +78,11 @@ class Enemy {
         this.flapSpeed= Math.floor(Math.random() * 3 + 1);
         this.angle = 0;
         this.angleSpeed= Math.random() * 0.2
+        this.curve = Math.random() * 7;
     }
     update(){
         this.x-=this.speed;
-        this.y+= 3 * Math.sin(this.angle);
+        this.y+= this.curve * Math.sin(this.angle);
         this.angle += this.angleSpeed;
         if(this.x + this.width < 0 ) this.x = canvas.width;
         if(gameFrame % this.flapSpeed === 0){
@@ -89,6 +90,7 @@ class Enemy {
         }
     }
     draw(){
+        ctx.strokeRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
 }
