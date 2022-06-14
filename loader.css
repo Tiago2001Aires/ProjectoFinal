@@ -1,48 +1,80 @@
 @import url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap');
-*{
+
+* {
     box-sizing: border-box;
 }
-body, html{
+
+body,
+html {
     height: 100vh;
     margin: 0;
     background-color: black;
 }
 
+#loading-area {
+    height: 100vh;
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
 
-.image-area{
-    background-image: url('assets/fundo_loading.png');
+}
+
+.image-area {
+    background-image: url('./assets/fundo_loading.png');
     background-repeat: no-repeat;
-    background-size: 1024px 576px;
-    background-position: center center;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
     height: 100%;
     filter: blur(2px);
+    z-index: 1;
 }
 
 
-.loader{
+.loader {
     position: absolute;
     top: 0;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     font-family: 'Kdam Thmor Pro', sans-serif;
     font-size: 80px;
     color: #F7CAC9;
+    z-index: 2;
 
 }
 
-.loader::after{
+.loader::after {
     content: '\2026';
     display: inline-block;
     overflow: hidden;
     vertical-align: bottom;
-    animation: dots steps(3, end) 2s infinite;
+    animation: dots steps(4, end) 2s infinite;
     width: 0px;
+}
+
+.fade {
+    animation: fadeout 2s;
 }
 
 @keyframes dots {
     to {
-        width: 1.25em;
+        width: 1em;
     }
 }
 
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+
+    90%{
+        opacity: 0.9;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
