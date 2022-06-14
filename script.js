@@ -20,13 +20,14 @@ let frameX = 0;
 let gameFrame = 0;
 const staggerFrames = 4;
 const gravity = 0.5;
-const numberOfEnemies=4;
-const enemiesArray=[];
+const numberOfEnemies = 4;
+const enemiesArray = [];
+let gameOver = false;
 
 
 
 class Player {
-    constructor(){
+    constructor() {
         this.speed = 10
         this.position = {
             x: 100,
@@ -43,14 +44,14 @@ class Player {
         this.frames = 0
     }
 
-    draw(){
+    draw() {
         ctx.drawImage(this.image, 343 * this.frames, 0, 343, 300, this.position.x, this.position.y, this.width, this.height)
     }
 
-    update(){
-        if(gameFrame%staggerFrames == 0){
-            if(this.frames<8) this.frames ++;
-             else this.frames=0;
+    update(enemiesArray) {
+        if (gameFrame % staggerFrames == 0) {
+            if (this.frames < 8) this.frames++;
+            else this.frames = 0;
         }
         /*if(this.frames<9) this.frames ++;
             else this.frames=0;*/
@@ -60,43 +61,53 @@ class Player {
 
         if (this.position.y + this.height + this.velocity.y <= CANVAS_HEIGHT)
             this.velocity.y += gravity
+
+        //colision detection
+        enemiesArray.forEach(enemy => {
+            const dx = enemy.x - this.x;
+            const dy = enemy.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < enemy.width/2 + this.width / 2){
+                gameOver = true;
+            }
+        });
     }
 }
 
 class Enemy {
-    constructor(){
+    constructor() {
         this.image = new Image();
-        this.image.src = './assets/enemy2.png'; 
-        this.speed=Math.random() * 4 + 1;
+        this.image.src = './assets/enemy2.png';
+        this.speed = Math.random() * 4 + 1;
         this.spriteWidth = 265;
         this.spriteHeight = 188;
-        this.width=this.spriteWidth/2.5;
-        this.height=this.spriteHeight/2.5;
-        this.x=Math.random() * (canvas.width - this.width);
-        this.y=Math.random() * (canvas.height - this.height);
-        this.frame=0;
-        this.flapSpeed= Math.floor(Math.random() * 3 + 1);
+        this.width = this.spriteWidth / 2.5;
+        this.height = this.spriteHeight / 2.5;
+        this.x = Math.random() * (canvas.width - this.width);
+        this.y = Math.random() * (canvas.height - this.height);
+        this.frame = 0;
+        this.flapSpeed = Math.floor(Math.random() * 3 + 1);
         this.angle = 0;
-        this.angleSpeed= Math.random() * 0.2
+        this.angleSpeed = Math.random() * 0.2
         this.curve = Math.random() * 7;
     }
-    update(){
-        this.x-=this.speed;
-        this.y+= this.curve * Math.sin(this.angle);
+    update() {
+        this.x -= this.speed;
+        this.y += this.curve * Math.sin(this.angle);
         this.angle += this.angleSpeed;
-        if(this.x + this.width < 0 ) this.x = canvas.width;
-        if(gameFrame % this.flapSpeed === 0){
+        if (this.x + this.width < 0) this.x = canvas.width;
+        if (gameFrame % this.flapSpeed === 0) {
             this.frame > 4 ? this.frame = 0 : this.frame++;
         }
     }
-    draw(){
+    draw() {
         ctx.strokeRect(this.x, this.y, this.width, this.height);
         ctx.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
 }
 
 class Platform {
-    constructor({x, y, image}){
+    constructor({ x, y, image }) {
         this.position = {
             x: x,
             y: y
@@ -108,13 +119,13 @@ class Platform {
         this.height = image.height
     }
 
-    draw(){
+    draw() {
         ctx.drawImage(this.image, this.position.x, this.position.y)
     }
 }
 
 class GenericObject {
-    constructor({x, y, image}){
+    constructor({ x, y, image }) {
         this.position = {
             x: x,
             y: y
@@ -126,12 +137,12 @@ class GenericObject {
         this.height = image.height
     }
 
-    draw(){
+    draw() {
         ctx.drawImage(this.image, this.position.x, this.position.y)
     }
 }
 
-function createImage(src){
+function createImage(src) {
     const image = new Image()
     image.src = src
     return image
@@ -154,39 +165,39 @@ const keys = {
 }
 
 let scrollOffset = 0;
-for(let i= 0; i < numberOfEnemies; i++){
+for (let i = 0; i < numberOfEnemies; i++) {
     enemiesArray.push(new Enemy());
 }
-function init(){
+function init() {
     player = new Player()
     platforms = [
-        new Platform({x: platformImage.width * 4 + 300 + 100 - 2 + platformImage.width - platformSmallTallImage.width, y: 270, image: platformSmallTallImage}),
-        new Platform({x: -1, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width - 3, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 2 + 100 + 100, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 3 + 300 + 100, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 4 + 300 + 100 - 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 5 + 1000 + 20- 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 6 + 1000 + 300- 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 9 + 1500 + 50- 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 11 + 1750 + 75- 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 12 + 2100 + 100- 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 14 + 2400 + 100- 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 15 + 2500 + 100- 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 18 + 2800 + 100- 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 20 + 3000 + 100- 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 15 + 2200 + 100- 2, y: 345, image: platformImage})
+        new Platform({ x: platformImage.width * 4 + 300 + 100 - 2 + platformImage.width - platformSmallTallImage.width, y: 270, image: platformSmallTallImage }),
+        new Platform({ x: -1, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width - 3, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 2 + 100 + 100, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 3 + 300 + 100, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 4 + 300 + 100 - 2, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 5 + 1000 + 20 - 2, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 6 + 1000 + 300 - 2, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 9 + 1500 + 50 - 2, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 11 + 1750 + 75 - 2, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 12 + 2100 + 100 - 2, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 14 + 2400 + 100 - 2, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 15 + 2500 + 100 - 2, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 18 + 2800 + 100 - 2, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 20 + 3000 + 100 - 2, y: 470, image: platformImage }),
+        new Platform({ x: platformImage.width * 15 + 2200 + 100 - 2, y: 345, image: platformImage })
 
     ]
     genericObjects = [
-        new GenericObject({x: -1, y: -1, image: createImage(backgroundSrc)}),
-        new GenericObject({x: -1, y: -1, image: createImage(hillsSrc)})
+        new GenericObject({ x: -1, y: -1, image: createImage(backgroundSrc) }),
+        new GenericObject({ x: -1, y: -1, image: createImage(hillsSrc) })
     ]
 
     scrollOffset = 0;
 }
 
-function animate(){
+function animate() {
     /*ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     //ctx.drawimage(image, sx, sy, sw, sh, dx, dy, dw, dh); 
     ctx.drawImage(playerImage, frameX * spriteWidth, 0, spriteWidth, spriteHeight, 0, 0,
@@ -198,15 +209,15 @@ function animate(){
     }*/
 
     gameFrame++;
-    requestAnimationFrame(animate);
+    if (!gameOver) requestAnimationFrame(animate);
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
-    if(gameFrame % staggerFrames == 0){
-        if(frameX < 9)frameX ++;
+    if (gameFrame % staggerFrames == 0) {
+        if (frameX < 9) frameX++;
         else frameX = 0
     }
-    
+
 
     genericObjects.forEach((genericObject) => {
         genericObject.draw()
@@ -214,20 +225,23 @@ function animate(){
     platforms.forEach((platform) => {
         platform.draw()
     })
-    player.update()
+    player.update(enemiesArray)
 
     enemiesArray.forEach(enemy => {
         enemy.update();
         enemy.draw();
     })
-    if (keys.right.pressed && player.position.x < 400){
+
+
+
+    if (keys.right.pressed && player.position.x < 400) {
         player.velocity.x = player.speed
-    } else if ((keys.left.pressed && player.position.x > 100) || (keys.left.pressed && scrollOffset === 0 && player.position.x > 0)){
+    } else if ((keys.left.pressed && player.position.x > 100) || (keys.left.pressed && scrollOffset === 0 && player.position.x > 0)) {
         player.velocity.x = -player.speed
     } else {
         player.velocity.x = 0
 
-        if (keys.right.pressed){
+        if (keys.right.pressed) {
             scrollOffset += player.speed
             platforms.forEach((platform) => {
                 platform.position.x -= player.speed
@@ -235,8 +249,8 @@ function animate(){
             genericObjects.forEach((genericObject) => {
                 genericObject.position.x -= player.speed * 0.66
             })
-            
-        } else if (keys.left.pressed && scrollOffset > 0){
+
+        } else if (keys.left.pressed && scrollOffset > 0) {
             scrollOffset -= player.speed
             platforms.forEach((platform) => {
                 platform.position.x += player.speed
@@ -244,37 +258,37 @@ function animate(){
             genericObjects.forEach((genericObject) => {
                 genericObject.position.x += player.speed * 0.66
             })
-            
+
         }
     }
 
     // player platform collision
     platforms.forEach((platform) => {
-        if (player.position.y + player.height <= platform.position.y 
+        if (player.position.y + player.height <= platform.position.y
             && player.position.y + player.height + player.velocity.y >= platform.position.y
             && player.position.x + player.width >= platform.position.x
-            && player.position.x  <= platform.position.x + platform.width){
-                player.velocity.y = 0
+            && player.position.x <= platform.position.x + platform.width) {
+            player.velocity.y = 0
         }
     })
 
     // win condition
-    if (scrollOffset > platformImage.width * 20 + 700 - 2){
+    if (scrollOffset > platformImage.width * 20 + 700 - 2) {
         window.alert('You win')
     }
 
     // lose condition
-    if (player.position.y > CANVAS_HEIGHT){
+    if (player.position.y > CANVAS_HEIGHT) {
         init()
     }
 };
 
 init();
-animate();             
+animate();
 
-window.addEventListener('keydown', ({key}) => {
+window.addEventListener('keydown', ({ key }) => {
     console.log(key)
-    switch (key){
+    switch (key) {
         case 'ArrowLeft':
             console.log('left')
             keys.left.pressed = true
@@ -293,9 +307,9 @@ window.addEventListener('keydown', ({key}) => {
     }
 })
 
-window.addEventListener('keyup', ({key}) => {
+window.addEventListener('keyup', ({ key }) => {
     console.log(key)
-    switch (key){
+    switch (key) {
         case 'ArrowLeft':
             console.log('left')
             keys.left.pressed = false
