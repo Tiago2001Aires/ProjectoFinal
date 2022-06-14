@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,21 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href=".">
-    <link rel="stylesheet" href="loader.css"/>
     <title>Document</title>
-    <script>
-        function startTimer(){
-        var tt = setInterval(function() {
-            window.open ('load.html','_self',false)
-        },5000);
-        }
-        </script>
-        <!-- test -->
+    <link rel="stylesheet" href="stylesheet.css" />
 </head>
-<body onload=startTimer();>
-    <div id="parent"></div>
-        <div class="image-area"></div>
-        <div class="loader">Loading Game</div>
-      
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="script.js" type="module"></script>
 </body>
 </html>

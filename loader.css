@@ -8,9 +8,7 @@ body, html{
     background-color: black;
 }
 
-#parent{
-    position: relative;
-}
+
 .image-area{
     background-image: url('assets/fundo_loading.png');
     background-repeat: no-repeat;
@@ -38,8 +36,8 @@ body, html{
     display: inline-block;
     overflow: hidden;
     vertical-align: bottom;
-    animation: dots steps(4, end) 2s infinite;
-    width: 1px;
+    animation: dots steps(3, end) 2s infinite;
+    width: 0px;
 }
 
 @keyframes dots {
