@@ -128,7 +128,17 @@ function init(){
         new Platform({x: platformImage.width * 2 + 100 + 100, y: 470, image: platformImage}),
         new Platform({x: platformImage.width * 3 + 300 + 100, y: 470, image: platformImage}),
         new Platform({x: platformImage.width * 4 + 300 + 100 - 2, y: 470, image: platformImage}),
-        new Platform({x: platformImage.width * 5 + 1000 + 100- 2, y: 470, image: platformImage})
+        new Platform({x: platformImage.width * 5 + 1000 + 20- 2, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 6 + 1000 + 300- 2, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 9 + 1500 + 50- 2, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 11 + 1750 + 75- 2, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 12 + 2100 + 100- 2, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 14 + 2400 + 100- 2, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 15 + 2500 + 100- 2, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 18 + 2800 + 100- 2, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 20 + 3000 + 100- 2, y: 470, image: platformImage}),
+        new Platform({x: platformImage.width * 15 + 2200 + 100- 2, y: 345, image: platformImage})
+
     ]
     genericObjects = [
         new GenericObject({x: -1, y: -1, image: createImage(backgroundSrc)}),
@@ -206,8 +216,8 @@ function animate(){
     })
 
     // win condition
-    if (scrollOffset > platformImage.width * 5 + 700 - 2){
-        //window.alert('You win')
+    if (scrollOffset > platformImage.width * 20 + 700 - 2){
+        window.alert('You win')
     }
 
     // lose condition
