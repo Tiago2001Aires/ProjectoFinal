@@ -5,6 +5,7 @@
 body, html{
     height: 100vh;
     margin: 0;
+    background-color: black;
 }
 
 #parent{
@@ -12,7 +13,8 @@ body, html{
 }
 .image-area{
     background-image: url('assets/fundo_loading.png');
-    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 1024px 576px;
     background-position: center center;
     height: 100%;
     filter: blur(2px);
