@@ -283,6 +283,7 @@ function animate() {
     // win condition
     if (scrollOffset > platformImage.width * 20 + 700 - 2) {
         window.alert('You win')
+        init();
     }
 
     // lose condition
