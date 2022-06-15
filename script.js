@@ -21,7 +21,7 @@ let gameFrame = 0;
 const staggerFrames = 4;
 const gravity = 0.5;
 const numberOfEnemies = 4;
-const enemiesArray = [];
+let enemiesArray = [];
 
 
 
@@ -165,10 +165,10 @@ const keys = {
 }
 
 let scrollOffset = 0;
-for (let i = 0; i < numberOfEnemies; i++) {
-    enemiesArray.push(new Enemy());
-}
+
+
 function init() {
+    
     player = new Player()
     platforms = [
         new Platform({ x: platformImage.width * 4 + 300 + 100 - 2 + platformImage.width - platformSmallTallImage.width, y: 270, image: platformSmallTallImage }),
@@ -194,7 +194,13 @@ function init() {
         new GenericObject({ x: -1, y: -1, image: createImage(hillsSrc) })
     ]
 
+
+
     scrollOffset = 0;
+    enemiesArray=[];
+    for (let i = 0; i < numberOfEnemies; i++) {
+        enemiesArray.push(new Enemy());
+    }
 }
 
 function animate() {
