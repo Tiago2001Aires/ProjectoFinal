@@ -155,7 +155,7 @@ let player = new Player()
 let platforms = []
 let genericObjects = []
 
-const keys = {
+let keys = {
     right: {
         pressed: false
     },
@@ -201,6 +201,7 @@ function init() {
     for (let i = 0; i < numberOfEnemies; i++) {
         enemiesArray.push(new Enemy());
     }
+    
 }
 
 function animate() {
