@@ -67,7 +67,7 @@ class Player {
             const dx = enemy.x - this.position.x;
             const dy = enemy.y - this.position.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < enemy.width/2 + this.width / 2){
+            if (distance < enemy.width/3 + this.width /3){
                 alert('Game Over');
                 init();
             }
